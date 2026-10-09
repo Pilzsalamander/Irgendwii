@@ -160,25 +160,24 @@
         </div>
 
         <div class="slider-container">
-            <label for="pressureSlider">Druck (bei 20°C)</label>
+            <label for="pressureSlider">Gewünschter Druck (bei 20°C)</label>
             <input type="range" id="pressureSlider" min="1" max="6" step="0.5" value="3">
             <div class="value-display"><span id="pressureValue">3</span> bar</div>
         </div>
 
         <div class="results">
             <div class="result-item">
-                <span class="result-label">CO₂ pro Liter:</span>
-                <span class="result-value" id="co2Value">19.5 g/L</span>
+                <span class="result-label">CO₂ (ca.) pro Liter:</span>
+                <span class="result-value" id="co2Value">6 g/L</span>
             </div>
             <div class="result-item">
                 <span class="result-label">Zucker pro Liter:</span>
-                <span class="result-value" id="sugarValue">30 g/L</span>
+                <span class="result-value" id="sugarValue">12 g/L</span>
             </div>
         </div>
 
         <div class="note">
-            <strong>Hinweis:</strong> Bei 20°C beträgt die CO₂-Aufnahme ca. 6,5 g pro Liter und Bar. 
-            Zucker fermentiert im Flascheninneren zu CO₂.
+            <strong>Hinweis:</strong> Aus der Tabelle: 1 Bar Druckanstieg = 4 g Zucker → 2 g CO₂ pro Liter.
         </div>
     </div>
 
@@ -188,17 +187,16 @@
         const co2Display = document.getElementById('co2Value');
         const sugarDisplay = document.getElementById('sugarValue');
 
-        const co2PerBarAt20C = 6.5;
-
         function updateCalculations() {
             const pressure = parseFloat(slider.value);
             
-            const co2Grams = pressure * co2PerBarAt20C;
-            const sugarPerLiter = co2Grams / 0.53;
+            // Aus der Tabelle: 1 Bar Druckanstieg = 4 g Zucker → 2 g CO₂ pro Liter
+            const co2Grams = pressure * 2.0;
+            const sugarGrams = pressure * 4.0;
 
             pressureDisplay.textContent = pressure.toFixed(1);
-            co2Display.textContent = co2Grams.toFixed(1) + ' g/L';
-            sugarDisplay.textContent = sugarPerLiter.toFixed(0) + ' g/L';
+            co2Display.textContent = co2Grams.toFixed(0) + ' g/L';
+            sugarDisplay.textContent = sugarGrams.toFixed(0) + ' g/L';
         }
 
         slider.addEventListener('input', updateCalculations);
